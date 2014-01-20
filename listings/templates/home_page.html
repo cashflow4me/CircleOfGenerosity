@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="list-group">
+                {% for o in object_list %}
+                  <li class="list-group-item">
+                      <!--TODO: set correct url-->
+                      <a href="/listings/{{o.slug}}">
+                          {{o.name}}
+                      </a>
+                  </li>
+                {% endfor %}
+            </ul>
+         </div>
+     </div>
+
+{% endblock %}

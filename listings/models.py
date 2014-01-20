@@ -11,9 +11,18 @@ class Tag(models.Model):
 
 
 class Listing(models.Model):
+    OFFER = 1
+    REQUEST = 2
+
     created_at = models.DateTimeField(auto_now_add=True)
-    company_name = models.CharField(max_length=200)
-    company_url = models.URLField()
+
+    listing_type = models.IntegerField(choices=(
+        (OFFER, "Offer"),
+        (REQUEST, "Request"),
+    ), default=OFFER)
+
+    organization_name = models.CharField(max_length=200)
+    organization_url = models.URLField()
     title = models.CharField(max_length=200)
     description = models.TextField()
     apply_email = models.EmailField()

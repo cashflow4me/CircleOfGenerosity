@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+    'south',
     'listings',
 
     # The Django sites framework is required
@@ -61,7 +62,7 @@ INSTALLED_APPS = (
     # 'allauth.socialaccount.providers.soundcloud',
     # 'allauth.socialaccount.providers.stackexchange',
     # 'allauth.socialaccount.providers.twitch',
-    'allauth.socialaccount.providers.twitter',
+    # 'allauth.socialaccount.providers.twitter',
     # 'allauth.socialaccount.providers.vimeo',
     # 'allauth.socialaccount.providers.vk',
     # 'allauth.socialaccount.providers.weibo',
@@ -139,3 +140,15 @@ STATIC_URL = '/static/'
 LOGIN_URL = "/login/"
 LOGIN_REDIRECT_URL = "/"
 SITE_ID=1  #required by all-auth
+
+
+# auth and allauth settings
+LOGIN_REDIRECT_URL = '/'
+SOCIALACCOUNT_QUERY_EMAIL = True
+SOCIALACCOUNT_PROVIDERS = {
+    'facebook': {
+        'SCOPE': ['email', 'publish_stream'],
+        'METHOD': 'js_sdk'  # instead of 'oauth2'
+    }
+}
+SESSION_SERIALIZER='django.contrib.sessions.serializers.PickleSerializer'

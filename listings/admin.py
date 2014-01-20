@@ -9,7 +9,7 @@ class TagAdmin(admin.ModelAdmin):
 class ListingAdmin(admin.ModelAdmin):
     list_display = (
                     "title",
-                    "company_name",
+                    "organization_name",
                     "created_at",
                     "geographic_area",
                     "tag_list",
