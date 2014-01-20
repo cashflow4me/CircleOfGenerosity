@@ -14,9 +14,8 @@
                 <ul class="list-group">
                 {% for o in object_list %}
                   <li class="list-group-item">
-                      <!--TODO: set correct url-->
                       <a href="/offers/tag/{{o.slug}}">
-                          {{o.name}}
+                          {{o.name}} <span class="badge">{{o.count_offers}}</span>
                       </a>
                   </li>
                 {% endfor %}
@@ -27,9 +26,8 @@
                 <ul class="list-group">
                 {% for o in object_list %}
                   <li class="list-group-item">
-                      <!--TODO: set correct url-->
                       <a href="/requests/tag/{{o.slug}}">
-                          {{o.name}}
+                          {{o.name}} <span class="badge">{{o.count_requests}}</span>
                       </a>
                   </li>
                 {% endfor %}

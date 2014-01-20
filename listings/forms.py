@@ -5,6 +5,9 @@ from listings.models import Listing
 class CreateListingForm(forms.ModelForm):
     class Meta:
         model = Listing
+        exclude = [
+            'owner'
+        ]
         # fields = (
         #            'title',
         #            'abstract',

@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import models
 
@@ -9,17 +10,29 @@ class Tag(models.Model):
     def __unicode__(self):
         return self.name
 
+    def count_offers(self):
+        return Listing.objects.filter(listing_type = Listing.OFFER, tags = self).count()
+
+    def count_requests(self):
+        return Listing.objects.filter(listing_type = Listing.REQUEST, tags = self).count()
 
 class Listing(models.Model):
     OFFER = 1
     REQUEST = 2
-
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    listing_type = models.IntegerField(choices=(
+    LISTING_TYPES = (
         (OFFER, "Offer"),
         (REQUEST, "Request"),
-    ), default=OFFER)
+    )
+    LISTING_SLUGS = {
+        OFFER: 'offers',
+        REQUEST: 'requests',
+    }
+
+    owner = models.ForeignKey(User)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    listing_type = models.IntegerField(choices=LISTING_TYPES, default=OFFER)
+
 
     organization_name = models.CharField(max_length=200)
     organization_url = models.URLField()

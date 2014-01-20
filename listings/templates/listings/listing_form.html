@@ -8,6 +8,7 @@
         {% csrf_token %}
         {{form}}
         <input class="btn btn-default" type="submit" value="Post" />
+          <P>{{request.user}}</P>
     </form>
   </div>
 </div>

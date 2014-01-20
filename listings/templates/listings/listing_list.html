@@ -3,16 +3,25 @@
 {% block content %}
 
     <div class="row">
-        <div class="col-md-4">
-            <ul class="list-group">
+        <div class="col-md-2"></div>
+        <div class="col-md-2">
+            <div class="btn-group">
+              <button type="button" class="btn btn-danger"><a href="/{{listing_type}}/">Tags</a> </button>
+              <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+              </button>
+              <ul class="dropdown-menu" role="menu">
                 {% for o in tag_list %}
                   <li class="list-group-item">
-                      <!-- <a href="{{o.get_absolute_url}}"> -->
+                       <a href="/{{listing_type}}/tag/{{o.slug}}">
                           {{o.name}}
-                      <!--</a>-->
+                      </a>
                   </li>
                 {% endfor %}
-            </ul>
+
+              </ul>
+            </div>
          </div>
         <div class="col-md-8">
             <ul class="list-group">
