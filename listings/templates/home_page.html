@@ -4,16 +4,46 @@
 
     <div class="row">
         <div class="col-md-12">
-            <ul class="list-group">
+            <ul class="nav nav-tabs" id="myTab">
+              <li class="active"><a href="#offers" data-toggle="tab">Offers</a></li>
+              <li><a href="#requests" data-toggle="tab">Requests</a></li>
+            </ul>
+
+            <div class="tab-content">
+              <div class="tab-pane active" id="offers">
+                <ul class="list-group">
                 {% for o in object_list %}
                   <li class="list-group-item">
                       <!--TODO: set correct url-->
-                      <a href="/listings/{{o.slug}}">
+                      <a href="/offers/tag/{{o.slug}}">
                           {{o.name}}
                       </a>
                   </li>
                 {% endfor %}
-            </ul>
+                </ul>
+
+              </div>
+              <div class="tab-pane" id="requests">
+                <ul class="list-group">
+                {% for o in object_list %}
+                  <li class="list-group-item">
+                      <!--TODO: set correct url-->
+                      <a href="/requests/tag/{{o.slug}}">
+                          {{o.name}}
+                      </a>
+                  </li>
+                {% endfor %}
+                </ul>
+
+
+              </div>
+            </div>
+
+            <script>
+              $(function () {
+                $('#myTab a:last').tab('show')
+              })
+            </script>
          </div>
      </div>
 
