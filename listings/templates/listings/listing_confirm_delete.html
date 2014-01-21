@@ -6,8 +6,8 @@
   <div class="col-md-6">
       <form method="post">
         {% csrf_token %}
-        {{form}}
-        <input class="btn btn-default" type="submit" value="Post" />
+          <P> R U SURE? {{object.title}}</P>
+        <input class="btn btn-default" type="submit" value="Delete" />
           <!--<P>{{request.user}}</P>-->
     </form>
   </div>

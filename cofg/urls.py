@@ -12,6 +12,8 @@ urlpatterns = patterns('',
     url(r'^$', views.home, name='home'),
 
     url(r'^listing/(\d+)/$', views.listing, name='listing'),
+    url(r'^listing/(?P<pk>\d+)/edit/$', views.EditListingView.as_view(), name='edit_listing'),
+    url(r'^listing/(?P<pk>\d+)/delete/$', views.DeleteListingView.as_view(), name='delete_listing'),
 
     url(r'^offers/$', views.listings_by_type,{'type':Listing.OFFER}, name='offers'),
     url(r'^offers/tag/(\d+)/$', views.listings_by_tag_id,{'type':Listing.OFFER}, name='offers'),

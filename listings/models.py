@@ -3,6 +3,46 @@ from django.core.urlresolvers import reverse
 from django.db import models
 
 
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, related_name='profile')
+    about_me = models.TextField(null=True, blank=True)
+    # TODO : add fields to profile
+
+    def __unicode__(self):
+        return "{}'s profile".format(self.user.username)
+
+    # class Meta:
+    #     db_table = 'user_profile'
+
+    def profile_image_url(self):
+        """
+        Return the URL for the user's Facebook icon if the user is logged in via Facebook,
+        otherwise return the user's Gravatar URL
+        """
+        # TODO: add picture from google
+        fb_uid = SocialAccount.objects.filter(user_id=self.user.id, provider='facebook')
+
+        if len(fb_uid):
+            return "http://graph.facebook.com/{}/picture?width=40&height=40".format(fb_uid[0].uid)
+
+        return "http://www.gravatar.com/avatar/{}?s=40".format(
+            hashlib.md5(self.user.email).hexdigest())
+
+    def account_verified(self):
+        """
+        If the user is logged in and has verified hisser email address, return True,
+        otherwise return False
+        """
+        if self.user.is_authenticated:
+            result = EmailAddress.objects.filter(email=self.user.email)
+            if len(result):
+                return result[0].verified
+        return False
+
+
+User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
+
+
 class Tag(models.Model):
     name = models.CharField(max_length=200, unique=True)
     slug = models.CharField(max_length=200, unique=True)
@@ -17,6 +57,17 @@ class Tag(models.Model):
         return Listing.objects.filter(listing_type = Listing.REQUEST, tags = self).count()
 
 class Listing(models.Model):
+    # TODO : add CRUD (Create / Read / Update / Delete) views:
+    #   we did post new listing and view listing
+    #   TODO: delete button in the view (if owner of the listing)
+    #   TODO: edit button in the view (if owner of the listing)
+    #   TODO: edit form of the listing + delete button
+    #   TODO: delete icon in "my listings" list for each item
+    #   TODO: if not owner of offer, button "request this item",
+    #         if not owner of request, button "offer this item"
+    #         + form of send message + send via email + link from email + inbox etc
+    # TODO: map view with offers/requests on map
+
     OFFER = 1
     REQUEST = 2
     LISTING_TYPES = (

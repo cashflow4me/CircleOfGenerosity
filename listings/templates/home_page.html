@@ -14,9 +14,14 @@
                 <ul class="list-group">
                 {% for o in object_list %}
                   <li class="list-group-item">
+                      {% if o.count_offers != 0 %}
                       <a href="/offers/tag/{{o.slug}}">
-                          {{o.name}} <span class="badge">{{o.count_offers}}</span>
+                          {{o.name}}
                       </a>
+                      {% else %}
+                        {{o.name}}
+                      {% endif %}
+                      <span class="badge">{{o.count_offers}}</span>
                   </li>
                 {% endfor %}
                 </ul>
@@ -26,9 +31,14 @@
                 <ul class="list-group">
                 {% for o in object_list %}
                   <li class="list-group-item">
+                      {% if o.count_offers != 0 %}
                       <a href="/requests/tag/{{o.slug}}">
-                          {{o.name}} <span class="badge">{{o.count_requests}}</span>
-                      </a>
+                          {{o.name}}
+                      </a><span class="badge-full">{{o.count_offers}}</span>
+                      {% else %}
+                        {{o.name}}<span class="badge-empty">{{o.count_offers}}</span>
+                      {% endif %}
+
                   </li>
                 {% endfor %}
                 </ul>
