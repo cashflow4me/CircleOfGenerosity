@@ -2,10 +2,10 @@
 
 {% block content %}
 
-    <a href="{% url 'home' %}">
-        Home
-    </a>
-    
+    <!--<a href="{% url 'home' %}">-->
+        <!--Home-->
+    <!--</a>-->
+    <!---->
     <dl>
         <dt>Company</dt>
         <dd><a href="{{object.company_url}}" target="_blank">
@@ -21,7 +21,30 @@
         <dt>Owner</dt>
         <dd>{{object.owner}}</dd>
     
-        <dt></dt>
+        <dt>
+         {% if request.user == object.owner %}
+            <!--{{object.listing_type}}-->
+            <button type="button" class="btn btn-default btn-lg">
+                <a href="{{object.get_absolute_url}}edit">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                </a>
+            </button>
+            <button type="button" class="btn btn-default btn-lg">
+                <a href="{{object.get_absolute_url}}delete">
+                    <span class="glyphicon glyphicon-remove-circle"></span>
+                </a>
+            </button>
+            {% else %}
+                <button type="button" class="btn btn-info btn-lg">
+                {% if object.listing_type == object.OFFER %}
+                    request
+                {% else %}
+                    offer
+                {% endif %}
+                    this item
+                </button>
+            {% endif %}
+        </dt>
         <dd></dd>
     </dl>
     

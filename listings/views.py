@@ -2,8 +2,8 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponse, HttpResponseForbidden
 from django.utils.decorators import method_decorator
-from listings.forms import CreateListingForm
-from listings.models import Listing, Tag
+from listings.forms import CreateListingForm, CreateContactMessageForm
+from listings.models import Listing, Tag, ContactMessage
 from django.shortcuts import render, get_object_or_404
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.db.models import Count
@@ -12,9 +12,20 @@ from django.db.models import Count
 def home(request):
     # qs = Listing.objects.order_by('-created_at')
     tagList = Tag.objects.all()
+    my_offers = []
+    my_requests = []
     # tags_with_counts = Tag.objects.all().annotate(listings_count=Count('listings__id'))
+    if request.user.is_authenticated():
+        # assert False, request.user
+        my_offers = Listing.objects.filter(listing_type=Listing.OFFER, owner=request.user)
+        # my_offers = Listing.objects.all()
+        my_requests = Listing.objects.filter(listing_type=Listing.REQUEST, owner=request.user)
+
     return render(request, 'home_page.html', {
-                            'object_list': tagList})
+                            'object_list': tagList,
+                            'my_offers': my_offers,
+                            'my_requests': my_requests,
+                            })
                             # 'object_list': qs})
 
 
@@ -78,3 +89,15 @@ class PostListingView(CreateView):
         form.instance.owner = self.request.user
         return super(PostListingView, self).form_valid(form)
 
+
+class ReplyListingView(CreateView):
+    model = ContactMessage
+    form_class = CreateContactMessageForm
+
+    def form_valid(self, form):
+        # assert False, type(form.instance)
+        #TODO send mail
+        # form.instance.msg_sender = self.request.user
+        # form.instance.msg_receiver = self.model.msg_receiver
+        # form.instance.msg_title = self.model.listing.name
+        return super(ReplyListingView, self).form_valid(form)

@@ -30,6 +30,16 @@
                       <a href="{{o.get_absolute_url}}">
                           {{o.title}}
                       </a>
+                      {% if request.user == o.owner %}
+                      <span class="pull-right">
+                          <a href="{{o.get_absolute_url}}edit">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                          </a>
+                          <a href="{{o.get_absolute_url}}delete">
+                            <span class="glyphicon glyphicon-remove-circle"></span>
+                          </a>
+                      </span>
+                      {% endif %}
                   </li>
                 {% endfor %}
             </ul>

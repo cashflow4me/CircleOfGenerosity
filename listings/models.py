@@ -1,13 +1,15 @@
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import models
-
+from allauth.account.models import EmailAddress
+from allauth.socialaccount.models import SocialAccount
+import hashlib
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, related_name='profile')
     about_me = models.TextField(null=True, blank=True)
     # TODO : add fields to profile
-
+    # TODO: list offers/requests of any user
     def __unicode__(self):
         return "{}'s profile".format(self.user.username)
 
@@ -57,12 +59,12 @@ class Tag(models.Model):
         return Listing.objects.filter(listing_type = Listing.REQUEST, tags = self).count()
 
 class Listing(models.Model):
-    # TODO : add CRUD (Create / Read / Update / Delete) views:
+    # DONETODO : add CRUD (Create / Read / Update / Delete) views:
     #   we did post new listing and view listing
-    #   TODO: delete button in the view (if owner of the listing)
-    #   TODO: edit button in the view (if owner of the listing)
-    #   TODO: edit form of the listing + delete button
-    #   TODO: delete icon in "my listings" list for each item
+    #   DONETODO: delete button in the view (if owner of the listing)
+    #   DONETODO: edit button in the view (if owner of the listing)
+    #   DONETODO: edit form of the listing + delete button
+    #   DONETODO: delete icon in "my listings" list for each item
     #   TODO: if not owner of offer, button "request this item",
     #         if not owner of request, button "offer this item"
     #         + form of send message + send via email + link from email + inbox etc
@@ -104,3 +106,13 @@ class Listing(models.Model):
 
     def get_absolute_url(self):
         return reverse('listing', args=(self.id,))
+
+
+class ContactMessage(models.Model):
+
+    msg_sender = models.ForeignKey(User, related_name="sent_messages")
+    msg_receiver = models.ForeignKey(User, related_name="received_messages")
+    listing = models.ForeignKey(Listing)
+    created_at = models.DateTimeField(auto_now_add=True)
+    msg_title = models.CharField(max_length=200)
+    msg_body = models.TextField()

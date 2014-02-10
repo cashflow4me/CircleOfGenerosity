@@ -2,18 +2,19 @@
 
 {% block content %}
 <div class="row">
-  <div class="col-md-6">.col-md-6</div>
   <div class="col-md-6">
+      <p>USR: {{request.user}} SENDER: </p>
       <form method="post">
         {% csrf_token %}
         {{form}}
-        <input class="btn btn-success" type="submit" value="Save" />
+        <input class="btn btn-success" type="submit" value="Send" />
         <button type="button" class="btn btn-default" onClick="window.history.back();">
                 Cancel
         </button>
           <!--<P>{{request.user}}</P>-->
     </form>
   </div>
+  <div class="col-md-6">.col-md-6</div>
 </div>
 
 

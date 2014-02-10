@@ -7,7 +7,11 @@
       <form method="post">
         {% csrf_token %}
           <P> R U SURE? {{object.title}}</P>
-        <input class="btn btn-default" type="submit" value="Delete" />
+        <input class="btn btn-danger" type="submit" value="Delete" />
+        <button type="button" class="btn btn-default" onClick="window.history.back();">
+                Cancel
+        </button>
+
           <!--<P>{{request.user}}</P>-->
     </form>
   </div>

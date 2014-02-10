@@ -138,7 +138,7 @@ AUTHENTICATION_BACKENDS = (
 STATIC_URL = '/static/'
 
 LOGIN_URL = "/login/"
-LOGIN_REDIRECT_URL = "/"
+
 SITE_ID=1  #required by all-auth
 
 

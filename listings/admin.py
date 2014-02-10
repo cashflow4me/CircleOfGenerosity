@@ -16,5 +16,18 @@ class ListingAdmin(admin.ModelAdmin):
                     )
 
 
+class ContactMessageAdmin(admin.ModelAdmin):
+    list_display = (
+                    "msg_sender",
+                    "msg_receiver",
+                    "listing",
+                    "created_at",
+                    "msg_title",
+                    "msg_body",
+                    )
+
+
+
 admin.site.register(models.Tag, TagAdmin)
 admin.site.register(models.Listing, ListingAdmin)
+admin.site.register(models.ContactMessage, ContactMessageAdmin)

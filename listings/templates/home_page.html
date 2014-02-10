@@ -7,6 +7,10 @@
             <ul class="nav nav-tabs" id="myTab">
               <li class="active"><a href="#offers" data-toggle="tab">Offers</a></li>
               <li><a href="#requests" data-toggle="tab">Requests</a></li>
+               {% if request.user.is_authenticated %}
+                  <li><a href="#my_offers" data-toggle="tab">My Offers</a></li>
+                  <li><a href="#my_requests" data-toggle="tab">My Requests</a></li>
+                {% endif %}
             </ul>
 
             <div class="tab-content">
@@ -17,11 +21,12 @@
                       {% if o.count_offers != 0 %}
                       <a href="/offers/tag/{{o.slug}}">
                           {{o.name}}
+                          <span class="label label-success pull-right">{{o.count_offers}}</span>
                       </a>
                       {% else %}
                         {{o.name}}
+                          <span class="label label-default pull-right">{{o.count_offers}}</span>
                       {% endif %}
-                      <span class="badge">{{o.count_offers}}</span>
                   </li>
                 {% endfor %}
                 </ul>
@@ -31,20 +36,47 @@
                 <ul class="list-group">
                 {% for o in object_list %}
                   <li class="list-group-item">
-                      {% if o.count_offers != 0 %}
-                      <a href="/requests/tag/{{o.slug}}">
-                          {{o.name}}
-                      </a><span class="badge-full">{{o.count_offers}}</span>
+                      {% if o.count_requests != 0 %}
+                          <a href="/requests/tag/{{o.slug}}">
+                              {{o.name}}
+                          </a>
+                          <!--<span class="badge">-->
+                              <span class="label label-success pull-right">{{o.count_requests}}</span>
+                          <!--</span>-->
                       {% else %}
-                        {{o.name}}<span class="badge-empty">{{o.count_offers}}</span>
+                          {{o.name}}
+                          <span class="label label-default pull-right">{{o.count_requests}}</span>
                       {% endif %}
 
                   </li>
                 {% endfor %}
                 </ul>
-
-
               </div>
+              {% if request.user.is_authenticated %}
+              <div class="tab-pane" id="my_offers">
+                <ul class="list-group">
+                {% for o in my_offers %}
+                    <li class="list-group-item">
+                        <a href="/listing/{{o.id}}">
+                            {{o.title}}
+                        </a>
+                    </li>
+                {% endfor %}
+                </ul>
+              </div>
+
+              <div class="tab-pane" id="my_requests">
+                <ul class="list-group">
+                {% for o in my_requests %}
+                    <li class="list-group-item">
+                        <a href="/listing/{{o.id}}">
+                            {{o.title}}
+                        </a>
+                    </li>
+                {% endfor %}
+                </ul>
+              </div>
+               {% endif %}
             </div>
 
             <script>
