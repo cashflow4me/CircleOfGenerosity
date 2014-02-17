@@ -3,7 +3,8 @@
 {% block content %}
 <div class="row">
   <div class="col-md-6">
-      <p>USR: {{request.user}} SENDER: </p>
+      <!--<p>USR: {{request.user}} SENDER: </p>-->
+      <H2>{{action_type}} <a href="/listing/{{listing_id}}">{{listing_title}}</a> {{action_preposition}} {{msg_receiver}}  </H2>
       <form method="post">
         {% csrf_token %}
         {{form}}

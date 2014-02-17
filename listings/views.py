@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponse, HttpResponseForbidden
 from django.utils.decorators import method_decorator
@@ -74,6 +75,7 @@ def listings_by_tag_slug(request, pk, type):
 def listings_by_tag_id(request, pk, type):
     tag=get_object_or_404(Tag, pk=pk)
     theList = Listing.objects.filter(listing_type=type, tags=tag)
+    tagList = Tag.objects.all()
     return render(request, 'listings/listing_list.html', {
                             'object_list': theList,
                             'tag_list': tagList,
@@ -93,11 +95,40 @@ class PostListingView(CreateView):
 class ReplyListingView(CreateView):
     model = ContactMessage
     form_class = CreateContactMessageForm
+    success_url = "/listing/"
+
+    def get_initial(self):
+        d = super(ReplyListingView, self).get_initial()
+        listing_id = self.kwargs.get('pk')
+        listing_obj = Listing.objects.get(id=int(listing_id))
+        d['msg_title'] = listing_obj.title
+        return d
+
+    def get_context_data(self, **kwargs):
+        d = super(ReplyListingView, self).get_context_data(**kwargs)
+        d['msg_sender'] = self.request.user
+        listing_id = self.kwargs.get('pk')
+        listing_obj = Listing.objects.get(id=int(listing_id))
+        d['msg_receiver'] = listing_obj.owner
+        d['listing_title'] = listing_obj.title
+        d['listing_id'] = listing_id
+        d['action_type'] = listing_obj.get_complement_action()
+        d['action_preposition'] = listing_obj.get_complement_preposition()
+        return d
 
     def form_valid(self, form):
         # assert False, type(form.instance)
-        #TODO send mail
-        # form.instance.msg_sender = self.request.user
-        # form.instance.msg_receiver = self.model.msg_receiver
-        # form.instance.msg_title = self.model.listing.name
+        #TODO send mail with GMAIL
+        listing_id = self.kwargs.get('pk')
+        listing_obj = Listing.objects.get(id=int(listing_id))
+        self.success_url = '/listing/'+listing_id
+        form.instance.msg_sender = self.request.user
+        form.instance.msg_receiver = listing_obj.owner
+        form.instance.listing = listing_obj
+        send_mail(
+            subject=form.cleaned_data.get('msg_title').strip(),
+            message=form.cleaned_data.get('msg_body').strip(),
+            from_email=self.request.user.email, #'contact-form@myapp.com',
+            recipient_list=[listing_obj.owner.email],
+        )
         return super(ReplyListingView, self).form_valid(form)

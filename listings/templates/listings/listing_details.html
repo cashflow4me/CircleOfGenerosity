@@ -35,14 +35,12 @@
                 </a>
             </button>
             {% else %}
-                <button type="button" class="btn btn-info btn-lg">
-                {% if object.listing_type == object.OFFER %}
-                    request
-                {% else %}
-                    offer
-                {% endif %}
-                    this item
-                </button>
+
+                <a class="btn btn-info btn-lg" href="/listing/{{object.id}}/reply">
+                {{object.get_complement_action}}
+                this item
+                </a>
+
             {% endif %}
         </dt>
         <dd></dd>

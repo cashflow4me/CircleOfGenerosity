@@ -76,6 +76,10 @@ class Listing(models.Model):
         (OFFER, "Offer"),
         (REQUEST, "Request"),
     )
+        # LISTING_TYPES = {
+        # OFFER: "Offer",
+        # REQUEST: "Request",
+        # }
     LISTING_SLUGS = {
         OFFER: 'offers',
         REQUEST: 'requests',
@@ -106,6 +110,18 @@ class Listing(models.Model):
 
     def get_absolute_url(self):
         return reverse('listing', args=(self.id,))
+
+    def get_complement_action(self):
+        listing_types_dict = dict(self.LISTING_TYPES)
+        if self.listing_type == self.OFFER:
+            return listing_types_dict.get(self.REQUEST)
+        return listing_types_dict.get(self.OFFER) #else
+
+
+    def get_complement_preposition(self):
+        if self.listing_type == self.OFFER:
+            return "from"
+        return "to" #else
 
 
 class ContactMessage(models.Model):

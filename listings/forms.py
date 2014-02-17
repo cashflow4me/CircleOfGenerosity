@@ -37,7 +37,7 @@ class CreateContactMessageForm(forms.ModelForm):
         # listing_title = item.organization_name
 
         exclude = [
-                  # 'msg_sender',
+                  'msg_sender',
                   'msg_receiver',
                   'listing',
                   ]
@@ -47,13 +47,7 @@ class CreateContactMessageForm(forms.ModelForm):
         #            )
 
         widgets = {
-            'msg_sender': forms.TextInput({"value": '2'}),
-            'msg_title': forms.TextInput({"value": "alex"}),
+            'msg_title': forms.TextInput,#({"value": "alex"}),
             'msg_body': forms.Textarea,
         }
-
-    def get_context_data(self):
-        ctx = super(CreateContactMessageForm, self).get_context_data()
-        ctx['msg_sender'] = 'bar'
-        return ctx
 

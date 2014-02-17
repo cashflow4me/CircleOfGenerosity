@@ -16,6 +16,8 @@ urlpatterns = patterns('',
     url(r'^listing/(?P<pk>\d+)/delete/$', views.DeleteListingView.as_view(), name='delete_listing'),
     #reply = send message to owner and offer/request the item
     url(r'^listing/(?P<pk>\d+)/reply/$', views.ReplyListingView.as_view(), name='reply_listing'),
+    # url(r'^listing/(?P<slug>\d+)/reply/$', views.ReplyListingView.as_view(), name='reply_listing'),
+
 # TODO change routing to "listing" and provide type: offer/request
     url(r'^offers/$', views.listings_by_type,{'type':Listing.OFFER}, name='offers'),
     url(r'^offers/tag/(\d+)/$', views.listings_by_tag_id,{'type':Listing.OFFER}, name='offers'),

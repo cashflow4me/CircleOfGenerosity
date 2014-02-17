@@ -21,7 +21,6 @@ SECRET_KEY = '$-$!=5hi^k#h!lqngdk%941#_hj+3_v$=vyhbggw&k5y3h__5!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
 TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
@@ -152,3 +151,15 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 SESSION_SERIALIZER='django.contrib.sessions.serializers.PickleSerializer'
+
+#set email backend to console or gmail
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+#TODO: learn to send email with Gmail
+# EMAIL_BACKEND =  'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_HOST_USER = 'me@gmail.com'
+# EMAIL_HOST_PASSWORD = ''
+# EMAIL_PORT = 465
+# EMAIL_USE_TLS = True
+# EMAIL_USE_SSL = True
